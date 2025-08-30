@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { UContractCalculator } from "../../../components/calculator/u-contract-calculator";
 
 export const runtime = "edge";

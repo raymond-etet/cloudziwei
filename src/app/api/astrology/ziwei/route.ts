@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { astro } from "iztro";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 export const runtime = "edge";
 
@@ -41,7 +41,9 @@ export async function GET(request: NextRequest) {
       gender: searchParams.get("gender") as "male" | "female",
       name: searchParams.get("name") || undefined,
       location: searchParams.get("location") || undefined,
-      birthdayType: (searchParams.get("birthdayType") || "solar") as "solar" | "lunar",
+      birthdayType: (searchParams.get("birthdayType") || "solar") as
+        | "solar"
+        | "lunar",
     };
 
     const validatedParams = ziweiSchema.parse(params);
@@ -95,29 +97,29 @@ export async function GET(request: NextRequest) {
 
       // 宫位数据
       palaces: chart.palaces.map((palace: any, index: number) => ({
-        name: palace.name,
-        isBodyPalace: palace.isBodyPalace,
-        isMainPalace: palace.isMainPalace,
-        heavenlyStem: palace.heavenlyStem,
-        earthlyBranch: palace.earthlyBranch,
-        majorStars: palace.majorStars,
-        minorStars: palace.minorStars,
-        adjectiveStars: palace.adjectiveStars,
-        changsheng12: palace.changsheng12,
-        boshi12: palace.boshi12,
-        jiangqian12: palace.jiangqian12,
-        suiqian12: palace.suiqian12,
-        decadal: palace.decadal,
-        ages: palace.ages,
+        name: (palace as any).name,
+        isBodyPalace: (palace as any).isBodyPalace,
+        isMainPalace: (palace as any).isMainPalace,
+        heavenlyStem: (palace as any).heavenlyStem,
+        earthlyBranch: (palace as any).earthlyBranch,
+        majorStars: (palace as any).majorStars,
+        minorStars: (palace as any).minorStars,
+        adjectiveStars: (palace as any).adjectiveStars,
+        changsheng12: (palace as any).changsheng12,
+        boshi12: (palace as any).boshi12,
+        jiangqian12: (palace as any).jiangqian12,
+        suiqian12: (palace as any).suiqian12,
+        decadal: (palace as any).decadal,
+        ages: (palace as any).ages,
         index: index,
       })),
 
       // 四化信息
       sihua: {
-        lu: chart.sihua?.lu || [],
-        quan: chart.sihua?.quan || [],
-        ke: chart.sihua?.ke || [],
-        ji: chart.sihua?.ji || [],
+        lu: (chart as any).sihua?.lu || [],
+        quan: (chart as any).sihua?.quan || [],
+        ke: (chart as any).sihua?.ke || [],
+        ji: (chart as any).sihua?.ji || [],
       },
 
       // 用户输入信息
@@ -130,7 +132,7 @@ export async function GET(request: NextRequest) {
 
     // 6. 保存排盘记录到数据库（如果用户已登录）
     try {
-      const context = await getCloudflareContext({ async: true });
+      // const context = await getCloudflareContext({ async: true });
       // TODO: 实现用户认证和数据库保存
       // 暂时跳过数据库操作，专注于排盘功能
     } catch (dbError) {
@@ -153,6 +155,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    return NextResponse.json({ error: "排盘过程中发生未知错误" }, { status: 500 });
+    return NextResponse.json(
+      { error: "排盘过程中发生未知错误" },
+      { status: 500 }
+    );
   }
 }

@@ -24,7 +24,7 @@ export function SignInForm() {
       } else {
         setMessage("验证邮件已发送，请检查您的邮箱");
       }
-    } catch (error) {
+    } catch {
       setMessage("登录过程中发生错误");
     } finally {
       setLoading(false);
@@ -35,7 +35,7 @@ export function SignInForm() {
     <div className="card w-full max-w-md bg-base-100 shadow-xl">
       <div className="card-body">
         <h2 className="card-title justify-center text-2xl mb-6">登录账户</h2>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="form-control">
             <label className="label">
@@ -63,7 +63,13 @@ export function SignInForm() {
         </form>
 
         {message && (
-          <div className={`alert ${message.includes("失败") || message.includes("错误") ? "alert-error" : "alert-success"} mt-4`}>
+          <div
+            className={`alert ${
+              message.includes("失败") || message.includes("错误")
+                ? "alert-error"
+                : "alert-success"
+            } mt-4`}
+          >
             <span>{message}</span>
           </div>
         )}

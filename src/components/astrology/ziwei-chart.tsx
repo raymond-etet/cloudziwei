@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
 import type { ZiweiChart, ZiweiFormData, ChartType } from "../../types/ziwei";
@@ -39,11 +40,11 @@ export const ZiweiChartComponent: React.FC = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "排盘失败");
+        throw new Error((errorData as any).error || "排盘失败");
       }
 
       const data = await response.json();
-      setChartData(data);
+      setChartData(data as ZiweiChart);
     } catch (err) {
       setError(err instanceof Error ? err.message : "排盘过程中发生错误");
     } finally {

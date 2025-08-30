@@ -1,15 +1,14 @@
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 
 export function UserMenu() {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
-    return (
-      <div className="skeleton w-10 h-10 rounded-full"></div>
-    );
+    return <div className="skeleton w-10 h-10 rounded-full"></div>;
   }
 
   if (!session) {
@@ -27,23 +26,34 @@ export function UserMenu() {
 
   return (
     <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+      <div
+        tabIndex={0}
+        role="button"
+        className="btn btn-ghost btn-circle avatar"
+      >
         <div className="w-10 rounded-full">
           {session.user?.image ? (
-            <img
+            <Image
               src={session.user.image}
               alt={session.user.name || "用户头像"}
+              width={40}
+              height={40}
               className="rounded-full"
             />
           ) : (
             <div className="bg-neutral text-neutral-content rounded-full w-full h-full flex items-center justify-center">
-              {session.user?.name?.charAt(0) || session.user?.email?.charAt(0) || "U"}
+              {session.user?.name?.charAt(0) ||
+                session.user?.email?.charAt(0) ||
+                "U"}
             </div>
           )}
         </div>
       </div>
-      
-      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+
+      <ul
+        tabIndex={0}
+        className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+      >
         <li className="menu-title">
           <span>{session.user?.name || session.user?.email}</span>
         </li>

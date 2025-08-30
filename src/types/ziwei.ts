@@ -13,7 +13,7 @@ export interface ZiweiPalace {
   boshi12: string[];
   jiangqian12: string[];
   suiqian12: string[];
-  decadal: any;
+  decadal: unknown;
   ages: number[];
   index: number;
 }
