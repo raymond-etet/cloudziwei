@@ -29,8 +29,11 @@ CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,
   name TEXT,
   email TEXT UNIQUE,
+  password TEXT,
   emailVerified INTEGER,
-  image TEXT
+  image TEXT,
+  createdAt INTEGER DEFAULT (strftime('%s', 'now')),
+  updatedAt INTEGER DEFAULT (strftime('%s', 'now'))
 );
 
 CREATE TABLE IF NOT EXISTS verification_tokens (

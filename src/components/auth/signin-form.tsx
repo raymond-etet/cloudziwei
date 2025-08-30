@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 export function SignInForm() {
   const [email, setEmail] = useState("");
@@ -76,9 +77,11 @@ export function SignInForm() {
 
         <div className="divider">或</div>
 
-        <div className="text-center text-sm text-base-content/70">
-          <p>首次使用？输入邮箱即可自动注册</p>
-          <p className="mt-2">我们会向您的邮箱发送验证链接</p>
+        <div className="text-center text-sm">
+          <span>还没有账户？</span>
+          <Link href="/auth/register" className="link link-primary ml-1">
+            立即注册
+          </Link>
         </div>
       </div>
     </div>
