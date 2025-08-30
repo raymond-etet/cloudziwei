@@ -6,14 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",
-    "db:init": "wrangler d1 execute cloudziwei-db --file=schema.sql",
-    "db:studio": "wrangler d1 info cloudziwei-db",
-    "deploy:full": "chmod +x scripts/deploy.sh && ./scripts/deploy.sh",
-    "setup:db": "chmod +x scripts/init-db.sh && ./scripts/init-db.sh"
+    "lint": "next lint"
   },
   "dependencies": {
     "@auth/d1-adapter": "^1.10.0",
