@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
 import Link from "next/link";
@@ -48,9 +49,9 @@ export default function RegisterPage() {
           router.push("/auth/signin");
         }, 2000);
       } else {
-        setMessage(result.error || "注册失败");
+        setMessage((result as any).error || "注册失败");
       }
-    } catch (error) {
+    } catch {
       setMessage("注册过程中发生错误");
     } finally {
       setLoading(false);
@@ -153,9 +154,7 @@ export default function RegisterPage() {
           {message && (
             <div
               className={`alert ${
-                message.includes("成功")
-                  ? "alert-success"
-                  : "alert-error"
+                message.includes("成功") ? "alert-success" : "alert-error"
               } mt-4`}
             >
               {message}

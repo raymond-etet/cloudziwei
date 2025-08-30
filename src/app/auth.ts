@@ -1,30 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import NextAuth from "next-auth";
-import { D1Adapter } from "@auth/d1-adapter";
-import Resend from "next-auth/providers/resend";
+// import { D1Adapter } from "@auth/d1-adapter";
+// import Resend from "next-auth/providers/resend";
 import Credentials from "next-auth/providers/credentials";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 export const runtime = "edge";
 
-// Edge Runtime 兼容的密码验证函数
-async function verifyPassword(
-  password: string,
-  hashedPassword: string
-): Promise<boolean> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password + "cloudziwei-salt-2024"); // 使用相同的盐值
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashedInput = hashArray
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-  return hashedInput === hashedPassword;
-}
+// 密码验证逻辑已内联到认证函数中
 
 // Create a function that returns the auth configuration
 const createAuthConfig = async () => {
-  const context = await getCloudflareContext({ async: true });
+  // const context = await getCloudflareContext({ async: true });
 
   return NextAuth({
     providers: [
@@ -73,10 +60,16 @@ const createAuthConfig = async () => {
             }
 
             // 验证密码 - 使用 Edge Runtime 兼容的方法
-            const isValid = await verifyPassword(
-              credentials.password,
-              user.password as string
+            const encoder = new TextEncoder();
+            const data = encoder.encode(
+              credentials.password + "cloudziwei-salt-2024"
             );
+            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashedInput = hashArray
+              .map((b) => b.toString(16).padStart(2, "0"))
+              .join("");
+            const isValid = hashedInput === user.password;
 
             if (!isValid) {
               return null;

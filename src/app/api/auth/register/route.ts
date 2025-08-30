@@ -13,14 +13,7 @@ async function hashPassword(password: string): Promise<string> {
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-// 验证密码函数
-async function verifyPassword(
-  password: string,
-  hashedPassword: string
-): Promise<boolean> {
-  const hashedInput = await hashPassword(password);
-  return hashedInput === hashedPassword;
-}
+// 验证密码函数已移至 auth.ts 中内联使用
 
 // 注册数据验证
 const registerSchema = z.object({
